@@ -26,6 +26,17 @@ $getAllMembers = fetchNonAdminMembers($serverUUID);
 $getAdminMembers = fetchAdminMembers($serverUUID);
 
 $totalMember = getTotalServerMembers($serverUUID);
+
+
+if(isset($_POST['leaveServer'])) {
+    if (leaveServer($serverUUID, $decryptedUserId) > 0) {
+        redirect(BASEURL);
+        exit;
+    } else {
+        redirectToCurrentPage();
+        exit;
+    }
+}
 ?>
 
 <?php require "../components/head.php"; ?>
@@ -61,6 +72,12 @@ $totalMember = getTotalServerMembers($serverUUID);
         </ul>
     </div>
 
+</div>
+
+<div>
+    <form action="" method="post">
+        <button type="submit" name="leaveServer" class="btn btn-dark px-3 py-1 rounded-2">Leave Server</button>
+    </form>
 </div>
 
 

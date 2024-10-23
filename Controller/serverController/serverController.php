@@ -278,13 +278,29 @@ function leaveServer($serverUUID, $memberId)
     global $db;
 
     $serverUUID = $db->real_escape_string($serverUUID);
-    $query = $db->query("DELETE FROM server_members WHERE server_uuid = '$serverUUID' AND member_id = $memberId");
-    if ($db->affected_rows > 0) {
-        return true; // Indicate success
+
+
+    $isServerOwner = $db->query("SELECT * FROM servers WHERE server_uuid = '$serverUUID' AND created_by = '$memberId'");
+// var_dump($isServerOwner);exit;
+    if($isServerOwner->num_rows > 0) {
+        $_SESSION['process'] = [
+            "status" => "failed",
+            "title" => "Cannot Leave Server,",
+            "content" => "you own the server, give other people ownership first.."
+        ];
+        return 0;
     } else {
-        return false; // Indicate failure (could be no rows deleted or query error)
+        $_SESSION['process'] = [
+            "status" => "success",
+            "title" => "Leave Server,",
+            "content" => "Leaving.."
+        ];
+        return 1;
     }
+    
 }
+
+
 
 // if (isset($_POST['deleteServer'])) {
 //     $serverUUID = $_POST['server_uuid'];
