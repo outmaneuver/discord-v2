@@ -1,8 +1,8 @@
 <?php
 
 // define("BASEURL", "https://ad83-2001-448a-1002-1c0d-a9f0-1fb7-3011-738f.ngrok-free.app/discord");
-// define("BASEURL", "https://discord.app");
-define("BASEURL", "http://localhost/discord-v2");
+define("BASEURL", "https://discord.app");
+// define("BASEURL", "http://localhost/discord-v2");
 define("TITLE_SITE", "Discord");
 define("ENCRYPT_KEY", "AESA_SDW_45_XANN_MEY_ASdaASlpqwKDMC3412ISJAO1501");
 function uuid()
