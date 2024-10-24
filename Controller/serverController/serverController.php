@@ -150,8 +150,8 @@ function createUniqueServerCode($serverUUID)
     $serverUUID = $db->real_escape_string($serverUUID);
 
     while (true) {
-        $code = str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT); // Menghasilkan kode acak 5 angka
-
+        $code = str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT); // Menghasilkan kode acak 5 angka
+        
         // Periksa apakah kode sudah ada dalam database
         $query = "SELECT COUNT(*) as count FROM server_code WHERE code = '$code'";
         $result = $db->query($query);
@@ -194,7 +194,26 @@ function addMemberToServer($serverUUID, $memberId)
     global $db;
 
     $serverUUID = $db->real_escape_string($serverUUID);
-    $db->query("INSERT INTO server_members(server_uuid, member_id) VALUES('$serverUUID', '$memberId')");
+
+    $server = getServerByUUID($serverUUID);
+    $serverName = $server['server_name'];
+
+    $query = $db->query("INSERT INTO server_members(server_uuid, member_id) VALUES('$serverUUID', '$memberId')");
+
+    if($query) {
+        $_SESSION['process'] = [
+            "status" => "success",
+            "title" => "Joined,",
+            "content" => "Welcome to " . $serverName,
+        ];
+    } else {
+        $_SESSION['process'] = [
+            "status" => "failed",
+            "title" => "failed,",
+            "content" => "Something wrong.."
+        ];
+    }
+
     return 1;
 }
 
@@ -253,7 +272,7 @@ function requestServerJoin($serverUUID, $userId, $reason)
     $reason = mysqli_real_escape_string($db, $reason);
     $time = date("Y:m:d H:i:s");
 
-    $isHasSent = $db->query("SELECT * FROM request_to_join_server WHERE server_uuid = '$serverUUID' AND user_id = '$userId'");
+    $isHasSent = $db->query("SELECT * FROM server_join_requests WHERE server_uuid = '$serverUUID' AND user_id = '$userId'");
 
     if ($isHasSent->num_rows >= 3) {
         $_SESSION['process'] = [
@@ -268,7 +287,7 @@ function requestServerJoin($serverUUID, $userId, $reason)
             "title" => "Successfuly",
             "content" => "submitted request to join."
         ];
-        $db->query("INSERT INTO request_to_join_server(server_uuid, user_id, reason, created_at) VALUES('$serverUUID', '$userId', '$reason', '$time')");
+        $db->query("INSERT INTO server_join_requests(server_uuid, user_id, reason, created_at) VALUES('$serverUUID', '$userId', '$reason', '$time')");
         return 1;
     }
 }
@@ -281,7 +300,6 @@ function leaveServer($serverUUID, $memberId)
 
 
     $isServerOwner = $db->query("SELECT * FROM servers WHERE server_uuid = '$serverUUID' AND created_by = '$memberId'");
-// var_dump($isServerOwner);exit;
     if($isServerOwner->num_rows > 0) {
         $_SESSION['process'] = [
             "status" => "failed",
@@ -295,8 +313,11 @@ function leaveServer($serverUUID, $memberId)
             "title" => "Leave Server,",
             "content" => "Leaving.."
         ];
+        $db->query("DELETE FROM server_members WHERE server_uuid = '$serverUUID' AND member_id = '$memberId'");
         return 1;
     }
+
+
     
 }
 

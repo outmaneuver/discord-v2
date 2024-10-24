@@ -53,7 +53,7 @@ if (isset($_POST['requestJoin'])) {
     <div class="col-12 col-lg-6 m-auto border rounded-4 p-3">
         <div class="title-content d-flex">
             <div class="m-auto d-flex gap-2 pb-3">
-                <img src="<?= BASEURL ?>/favicon.ico" alt="icon" class="d-block m-auto rounded-3">
+                <img src="<?= BASEURL ?>/server-profile.webp" alt="icon" class="d-block m-auto rounded-3 shadow-sm">
                 <p class="display-5 m-auto"><?= $server['server_name'] ?></p>
             </div>
         </div>
@@ -115,8 +115,8 @@ if (isset($_POST['requestJoin'])) {
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="modal-title fs-5 d-flex gap-1" id="exampleModalToggleLabel">
-                            <img src="<?= BASEURL ?>/favicon.ico" alt="icon" class="rounded-3 m-auto" style="width: 35px; height: 35px">
-                            <p class="m-auto"><?= TITLE_SITE ?></p>
+                            <img src="<?= BASEURL ?>/server-profile.webp" alt="icon" class="rounded-3 m-auto shadow-sm" style="width: 35px; height: 35px">
+                            <p class="m-auto fw-bold fs-6"><?= $server['server_name'] ?></p>
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -146,8 +146,8 @@ if (isset($_POST['requestJoin'])) {
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="modal-title fs-5 d-flex gap-1" id="exampleModalToggleLabel">
-                            <img src="<?= BASEURL ?>/favicon.ico" alt="icon" class="rounded-3 m-auto" style="width: 35px; height: 35px">
-                            <p class="m-auto fw-bold fs-6"><?= TITLE_SITE ?></p>
+                            <img src="<?= BASEURL ?>/server-profile.webp" alt="icon" class="rounded-3 m-auto shadow-sm" style="width: 35px; height: 35px">
+                            <p class="m-auto fw-bold fs-6"><?= $server['server_name'] ?></p>
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -162,8 +162,11 @@ if (isset($_POST['requestJoin'])) {
                                     <input class="m-2 text-center form-control rounded" type="number" id="third" maxlength="1" />
                                     <input class="m-2 text-center form-control rounded" type="number" id="fourth" maxlength="1" />
                                     <input class="m-2 text-center form-control rounded" type="number" id="fifth" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded" type="number" id="sixth" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded" type="number" id="seventh" maxlength="1" />
+                                    <input class="m-2 text-center form-control rounded" type="number" id="eighth" maxlength="1" />
                                 </div>
-                                <div class="mt-4"> <button class="btn btn-dark px-3 py-1"> <i class="bi bi-stars"></i> Validate</button> </div>
+                                <div class="mt-4"> <button class="btn btn-dark px-3 py-1" id="validateCode"> <i class="bi bi-stars"></i> Validate</button> </div>
                             </div>
                         </div>
                     </form>

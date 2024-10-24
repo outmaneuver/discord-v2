@@ -5,28 +5,45 @@
 
         function OTPInput() {
             const inputs = document.querySelectorAll('#otp > *[id]');
+            const validateButton = document.getElementById('validateCode'); // Ambil tombol validate
+
             for (let i = 0; i < inputs.length; i++) {
                 inputs[i].addEventListener('keydown', function(event) {
                     if (event.key === "Backspace") {
                         inputs[i].value = '';
                         if (i !== 0) inputs[i - 1].focus();
                     } else {
-                        if (i === inputs.length - 1 && inputs[i].value !== '') {
-                            return true;
-                        } else if (event.keyCode > 47 && event.keyCode < 58) {
+                        // Mengizinkan hanya angka untuk berpindah
+                        if (event.keyCode >= 48 && event.keyCode <= 57) {
                             inputs[i].value = event.key;
-                            if (i !== inputs.length - 1) inputs[i + 1].focus();
+                            if (i !== inputs.length - 1) {
+                                inputs[i + 1].focus();
+                            } else {
+                                // Jika input terakhir, fokus ke tombol validate
+                                validateButton.focus();
+                            }
                             event.preventDefault();
-                        } else if (event.keyCode > 64 && event.keyCode < 91) {
-                            inputs[i].value = String.fromCharCode(event.keyCode);
-                            if (i !== inputs.length - 1) inputs[i + 1].focus();
-                            event.preventDefault();
+                        } 
+                        // Jika huruf, biarkan input tidak berpindah
+                        else if (event.keyCode >= 65 && event.keyCode <= 90) {
+                            event.preventDefault(); // Mencegah input huruf
                         }
                     }
                 });
             }
+
+            // Tambahkan listener untuk tombol validate
+            validateButton.addEventListener('keydown', function(event) {
+                if (event.key === "Backspace") {
+                    // Fokus ke input terakhir saat Backspace ditekan
+                    inputs[inputs.length - 1].focus();
+                }
+            });
         }
         OTPInput();
+
+
+
     });
 </script>
 </body>
